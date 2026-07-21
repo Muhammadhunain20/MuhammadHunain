@@ -1,0 +1,513 @@
+@model List<PortfolioMH.Models.Project>
+@{ Layout = "_Layout"; }
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar navbar-portfolio navbar-expand-lg" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="#home">
+            <span class="brand-mh">MH</span><span class="brand-dot">.</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-label="Toggle navigation">
+            <span class="toggler-icon"></span>
+            <span class="toggler-icon"></span>
+            <span class="toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto gap-1">
+                <li class="nav-item"><a class="nav-link-custom" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-hire ms-lg-3">
+                <i class="fas fa-paper-plane me-2"></i>Hire Me
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<section id="home" class="hero-section">
+    <!-- Particle Canvas Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="container hero-container">
+        <!-- LEFT: Text Content -->
+        <div class="hero-content" data-aos="fade-right" data-aos-duration="900">
+            <p class="hero-greeting">
+                <span class="greeting-wave">👋</span> Hi, I'm
+            </p>
+            <h1 class="hero-name">Muhammad<br><span class="gradient-text">Hunain</span></h1>
+            <p class="hero-role">
+                <span class="role-prefix">I'm a </span>
+                <span id="typed-role" class="typed-text"></span>
+            </p>
+            <p class="hero-desc">
+                Crafting clean, functional web experiences from Karachi, Pakistan.
+                Final-year CS student turning caffeine and code into real products.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary-custom">
+                    <i class="fas fa-paper-plane me-2"></i>Hire Me
+                </a>
+                <a href="/Home/DownloadCV" class="btn btn-outline-custom" download>
+                    <i class="fas fa-download me-2"></i>Download CV
+                </a>
+            </div>
+            <!-- Social Quick Links -->
+            <div class="hero-socials mt-4">
+                <a href="https://github.com/muhammadhunain20" target="_blank" class="social-icon-link" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/muhammad-hunain-9966b631a" target="_blank" class="social-icon-link" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:hunni.khan0011@gmail.com" class="social-icon-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+923103188847" class="social-icon-link" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT: Profile Photo -->
+        <div class="hero-image-wrap" data-aos="fade-left" data-aos-duration="900" data-aos-delay="200">
+            <div class="profile-scene">
+                <!-- Spinning gradient ring -->
+                <div class="ring-spin"></div>
+                <div class="ring-mask"></div>
+                <img src="~/images/profile.jpg" alt="Muhammad Hunain" class="profile-photo" />
+                <!-- Glow layer -->
+                <div class="profile-glow"></div>
+            </div>
+
+            <!-- Floating skill badges -->
+            <div class="badge-float badge-1"><i class="fab fa-html5"></i> HTML5</div>
+            <div class="badge-float badge-2"><i class="fab fa-css3-alt"></i> CSS3</div>
+            <div class="badge-float badge-3"><i class="fab fa-js-square"></i> JavaScript</div>
+            <div class="badge-float badge-4"><i class="fab fa-bootstrap"></i> Bootstrap</div>
+            <div class="badge-float badge-5">⚙️ ASP.NET</div>
+            <div class="badge-float badge-6">🛢️ SQL Server</div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-dot"></div>
+        <span>Scroll Down</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     ABOUT SECTION
+============================================================ -->
+<section id="about" class="section-padding">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Get to know me</span>
+            <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="row align-items-start g-5">
+            <!-- LEFT: Bio + Info -->
+            <div class="col-lg-5" data-aos="fade-right" data-aos-delay="100">
+                <div class="about-bio-card">
+                    <p class="about-bio">
+                        I'm a final-year Computer Science student at <strong>Muhammad Ali Jinnah University (MAJU)</strong>,
+                        Karachi, with a CGPA of <strong>3.3</strong> and a last-semester GPA of <strong>3.75</strong>.
+                        Originally from Tando Adam in interior Sindh, I moved to Karachi to pursue my passion for technology.
+                    </p>
+                    <p class="about-bio">
+                        I specialize in building responsive, user-friendly web applications using
+                        <strong>HTML/CSS/JS/Bootstrap</strong> on the frontend and <strong>ASP.NET MVC 8</strong>
+                        with <strong>SQL Server</strong> on the backend. I've also deployed apps to Microsoft Azure.
+                    </p>
+
+                    <!-- Personal Info List -->
+                    <ul class="info-list">
+                        <li>
+                            <span class="info-icon"><i class="fas fa-user-graduate"></i></span>
+                            <span><strong>Degree:</strong> BS Computer Science (7th Sem)</span>
+                        </li>
+                        <li>
+                            <span class="info-icon"><i class="fas fa-university"></i></span>
+                            <span><strong>University:</strong> MAJU, Karachi</span>
+                        </li>
+                        <li>
+                            <span class="info-icon"><i class="fas fa-map-marker-alt"></i></span>
+                            <span><strong>Location:</strong> Karachi, Pakistan</span>
+                        </li>
+                        <li>
+                            <span class="info-icon"><i class="fas fa-envelope"></i></span>
+                            <span><strong>Email:</strong> hunni.khan0011&#64;gmail.com</span>
+                        </li>
+                        <li>
+                            <span class="info-icon"><i class="fas fa-phone"></i></span>
+                            <span><strong>Phone:</strong> +92 310 3188847</span>
+                        </li>
+                        <li>
+                            <span class="info-icon"><i class="fas fa-briefcase"></i></span>
+                            <span><strong>Status:</strong> <span class="status-badge">Open to Work</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RIGHT: Skills + Education -->
+            <div class="col-lg-7" data-aos="fade-left" data-aos-delay="200">
+
+                <!-- Skills -->
+                <h3 class="subsection-title mb-4"><i class="fas fa-code me-2 text-accent"></i>Technical Skills</h3>
+                <div class="skills-grid mb-5">
+                    @{
+                        var skills = new[]
+                        {
+                            new { Name = "HTML5 / CSS3", Icon = "fab fa-html5", Pct = 95, Color = "#E44D26" },
+                            new { Name = "Bootstrap 5", Icon = "fab fa-bootstrap", Pct = 90, Color = "#7952B3" },
+                            new { Name = "JavaScript (ES6+)", Icon = "fab fa-js-square", Pct = 78, Color = "#F7DF1E" },
+                            new { Name = "ASP.NET MVC 8", Icon = "fab fa-microsoft", Pct = 72, Color = "#7C6FFF" },
+                            new { Name = "SQL Server / MySQL", Icon = "fas fa-database", Pct = 75, Color = "#00E5D4" },
+                            new { Name = "Git & GitHub", Icon = "fab fa-github", Pct = 80, Color = "#FF6B6B" },
+                            new { Name = "C++ / OOP", Icon = "fas fa-terminal", Pct = 70, Color = "#00D4AA" },
+                            new { Name = "React.js (Learning)", Icon = "fab fa-react", Pct = 40, Color = "#61DAFB" },
+                        };
+                    }
+                    @foreach (var skill in skills)
+                    {
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-name"><i class="@skill.Icon me-2"></i>@skill.Name</span>
+                                <span class="skill-pct">@skill.Pct%</span>
+                            </div>
+                            <div class="skill-bar-bg">
+                                <div class="skill-bar-fill" data-width="@skill.Pct"
+                                     style="--bar-color: @skill.Color"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Education + Certifications -->
+                <h3 class="subsection-title mb-4"><i class="fas fa-graduation-cap me-2 text-accent"></i>Education & Certifications</h3>
+                <div class="edu-timeline">
+                    <div class="edu-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <span class="edu-year">2023 – Present</span>
+                            <h5 class="edu-degree">BS Computer Science</h5>
+                            <p class="edu-school"><i class="fas fa-university me-1"></i>Muhammad Ali Jinnah University, Karachi</p>
+                            <p class="edu-detail">CGPA: 3.3 &nbsp;|&nbsp; Last Semester GPA: 3.75 &nbsp;|&nbsp; 7th Semester</p>
+                        </div>
+                    </div>
+                    <div class="edu-item" data-aos="fade-up" data-aos-delay="150">
+                        <div class="edu-dot cert"></div>
+                        <div class="edu-card">
+                            <span class="edu-year">2024</span>
+                            <h5 class="edu-degree">The Complete Front-End Web Development Bootcamp</h5>
+                            <p class="edu-school"><i class="fas fa-certificate me-1"></i>Udemy</p>
+                        </div>
+                    </div>
+                    <div class="edu-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="edu-dot cert"></div>
+                        <div class="edu-card">
+                            <span class="edu-year">2025</span>
+                            <h5 class="edu-degree">Networking Essentials & Industrial Networking</h5>
+                            <p class="edu-school"><i class="fas fa-certificate me-1"></i>Cisco Networking Academy</p>
+                        </div>
+                    </div>
+                    <div class="edu-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="edu-dot cert"></div>
+                        <div class="edu-card">
+                            <span class="edu-year">2026</span>
+                            <h5 class="edu-degree">Web Development</h5>
+                            <p class="edu-school"><i class="fas fa-certificate me-1"></i>Muhammad Ali Jinnah Univeristy</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS SECTION
+============================================================ -->
+<section id="projects" class="section-padding section-dark">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">What I've built</span>
+            <h2 class="section-title">My <span class="gradient-text">Projects</span></h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="row g-4" id="projects-grid">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var project in Model)
+                {
+                    var tags = project.Technologies.Split(',').Select(t => t.Trim()).ToArray();
+                    <div class="col-lg-6 col-xl-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="project-card" data-tilt data-tilt-max="6" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
+                            <!-- Card Image / Gradient Header -->
+                            <div class="project-img-area @(project.IsFeatured ? "featured-project" : "")">
+                                @if (!string.IsNullOrEmpty(project.ImageUrl))
+                                {
+                                    <img src="@project.ImageUrl" alt="@project.Title" class="project-screenshot" />
+                                }
+                                else
+                                {
+                                    <div class="project-gradient-bg">
+                                        <div class="project-title-overlay">
+                                            <i class="fas fa-code project-icon"></i>
+                                            <span>@project.Title.Split('–')[0].Trim()</span>
+                                        </div>
+                                    </div>
+                                }
+                                @if (project.IsFeatured)
+                                {
+                                    <span class="featured-badge"><i class="fas fa-star me-1"></i>Featured</span>
+                                }
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="project-body">
+                                <h4 class="project-name">@project.Title</h4>
+                                <p class="project-desc">@project.Description</p>
+
+                                <!-- Tech Tags -->
+                                <div class="tech-tags mb-3">
+                                    @foreach (var tag in tags.Take(5))
+                                    {
+                                        <span class="tech-tag">@tag</span>
+                                    }
+                                    @if (tags.Length > 5)
+                                    {
+                                        <span class="tech-tag">+@(tags.Length - 5) more</span>
+                                    }
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="project-actions">
+                                    @if (!string.IsNullOrEmpty(project.LiveUrl))
+                                    {
+                                        <a href="@project.LiveUrl" target="_blank" class="btn btn-live">
+                                            <i class="fas fa-external-link-alt me-1"></i>Live Demo
+                                        </a>
+                                    }
+                                    @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                                    {
+                                        <a href="@project.GitHubUrl" target="_blank" class="btn btn-code">
+                                            <i class="fab fa-github me-1"></i>View Code
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-folder-open fa-3x text-muted mb-3 d-block"></i>
+                    <p class="text-muted">No projects yet. Add some from the Admin panel.</p>
+                </div>
+            }
+        </div>
+
+        <!-- GitHub CTA -->
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="https://github.com/muhammadhunain20" target="_blank" class="btn btn-outline-custom">
+                <i class="fab fa-github me-2"></i>See More on GitHub
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CONTACT SECTION
+============================================================ -->
+<section id="contact" class="section-padding">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Let's work together</span>
+            <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="row g-5 align-items-start">
+            <!-- LEFT: Contact Info -->
+            <div class="col-lg-5" data-aos="fade-right" data-aos-delay="100">
+                <p class="contact-intro">
+                    I'm currently open to freelance projects, internships, and full-time opportunities.
+                    Whether you have a project in mind or just want to connect — my inbox is always open.
+                </p>
+
+                <div class="contact-info-list">
+                    <div class="contact-info-item">
+                        <div class="contact-icon-wrap">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:hunni.khan0011@gmail.com" class="contact-value">
+                                hunni.khan0011&#64;gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon-wrap">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <span class="contact-label">Phone</span>
+                            <a href="tel:+923103188847" class="contact-value">+92 310 3188847</a>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon-wrap">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <span class="contact-label">Location</span>
+                            <span class="contact-value">Karachi, Pakistan</span>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon-wrap">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                        <div>
+                            <span class="contact-label">LinkedIn</span>
+                            <a href="https://www.linkedin.com/in/muhammad-hunain-9966b631a" target="_blank" class="contact-value">
+                                muhammad-hunain
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon-wrap">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div>
+                            <span class="contact-label">GitHub</span>
+                            <a href="https://github.com/muhammadhunain20" target="_blank" class="contact-value">
+                                muhammadhunain20
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Contact Form -->
+            <div class="col-lg-7" data-aos="fade-left" data-aos-delay="200">
+                <div class="contact-form-card">
+                    <div id="form-success" class="alert-success-custom d-none">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span id="form-success-text"></span>
+                    </div>
+                    <div id="form-error" class="alert-error-custom d-none">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <span id="form-error-text"></span>
+                    </div>
+
+                    <form id="contactForm">
+                        @Html.AntiForgeryToken()
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <input type="text" id="contactName" name="name" class="form-input-custom"
+                                           placeholder=" " required />
+                                    <label class="form-label-custom">Your Name *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <input type="email" id="contactEmail" name="email" class="form-input-custom"
+                                           placeholder=" " required />
+                                    <label class="form-label-custom">Email Address *</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group-custom">
+                                    <input type="text" id="contactSubject" name="subject" class="form-input-custom"
+                                           placeholder=" " required />
+                                    <label class="form-label-custom">Subject *</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group-custom">
+                                    <textarea id="contactMessage" name="message" class="form-input-custom form-textarea"
+                                              placeholder=" " rows="5" required></textarea>
+                                    <label class="form-label-custom">Your Message *</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary-custom w-100" id="submitBtn">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    <span class="btn-loader d-none" id="btnLoader">
+                                        <i class="fas fa-spinner fa-spin ms-2"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-top row align-items-center">
+            <div class="col-md-4 text-center text-md-start mb-4 mb-md-0">
+                <a href="#home" class="footer-brand">
+                    <span class="brand-mh">MH</span><span class="brand-dot">.</span>
+                </a>
+                <p class="footer-tagline mt-2">Building the web, one line at a time.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4 mb-md-0">
+                <nav class="footer-nav">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <div class="footer-socials">
+                    <a href="https://github.com/muhammadhunain20" target="_blank" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/muhammad-hunain-9966b631a" target="_blank" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:hunni.khan0011@gmail.com" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="tel:+923103188847" title="Phone">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>
+                &copy; @DateTime.Now.Year Muhammad Hunain
+            </p>
+            <a href="/Admin/Login" class="admin-link" disabled>Admin</a>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,40 @@
+## .NET build output
+bin/
+obj/
+*.user
+*.suo
+
+## Visual Studio
+.vs/
+*.userosscache
+*.sln.docstates
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## NuGet
+*.nupkg
+**/packages/
+project.lock.json
+project.fragment.lock.json
+
+## Publish output
+PublishProfiles/
+*.pubxml
+*.pubxml.user
+Publish/
+
+## Logs
+*.log
+
+## Local secrets / config (contains your admin password + connection string)
+appsettings.Development.json
+appsettings.Local.json
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Environment
+*.env

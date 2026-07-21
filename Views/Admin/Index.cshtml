@@ -1,0 +1,517 @@
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard – MH Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06091A; --surface: #0C1023; --card: #111829;
+            --violet: #7C6FFF; --teal: #00E5D4;
+            --text: #EEF2FF; --muted: #7B8DB0;
+            --border: rgba(124,111,255,0.15);
+            --danger: #FF6B6B; --success: #00D4AA;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+        /* ── TOPBAR ── */
+        .admin-topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .admin-brand { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; }
+        .admin-brand .mh { background: linear-gradient(135deg, var(--violet), var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .admin-brand .dot { color: var(--violet); }
+        .topbar-right { display: flex; align-items: center; gap: 1rem; }
+        .unread-badge { background: var(--violet); color: white; border-radius: 20px; padding: 0.2rem 0.6rem; font-size: 0.75rem; font-weight: 600; }
+        .btn-logout { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); color: var(--danger); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.85rem; text-decoration: none; transition: all 0.2s; }
+        .btn-logout:hover { background: rgba(255,107,107,0.2); color: var(--danger); }
+
+        /* ── TABS ── */
+        .admin-tabs { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; gap: 0; }
+        .tab-btn { background: none; border: none; color: var(--muted); font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; padding: 1rem 1.5rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.active { color: var(--violet); border-bottom-color: var(--violet); }
+        .tab-btn i { margin-right: 0.5rem; }
+
+        /* ── MAIN ── */
+        .admin-main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        .tab-panel { display: none; } .tab-panel.active { display: block; }
+
+        /* ── STATS ROW ── */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+        .stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+        .stat-icon.violet { background: rgba(124,111,255,0.15); color: var(--violet); }
+        .stat-icon.teal { background: rgba(0,229,212,0.15); color: var(--teal); }
+        .stat-icon.red { background: rgba(255,107,107,0.15); color: var(--danger); }
+        .stat-icon.green { background: rgba(0,212,170,0.15); color: var(--success); }
+        .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text); }
+        .stat-label { font-size: 0.78rem; color: var(--muted); }
+
+        /* ── SECTION TITLES ── */
+        .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+        .section-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text); }
+
+        /* ── TABLE ── */
+        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table th { background: rgba(124,111,255,0.08); color: var(--muted); font-size: 0.78rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        .admin-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.875rem; vertical-align: middle; }
+        .admin-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .admin-table tr.unread td { background: rgba(124,111,255,0.04); }
+        .admin-table tr.unread td:first-child { border-left: 2px solid var(--violet); }
+        .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+
+        /* ── MESSAGE PREVIEW ── */
+        .msg-preview { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 0.82rem; }
+        .sender-name { font-weight: 500; color: var(--text); }
+        .msg-date { color: var(--muted); font-size: 0.78rem; white-space: nowrap; }
+        .badge-unread { background: rgba(124,111,255,0.2); color: var(--violet); border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.72rem; font-weight: 600; }
+        .badge-read { background: rgba(255,255,255,0.06); color: var(--muted); border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.72rem; }
+
+        /* ── ACTION BUTTONS ── */
+        .btn-action { border: none; background: none; width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-action.read { background: rgba(0,229,212,0.1); color: var(--teal); }
+        .btn-action.read:hover { background: rgba(0,229,212,0.2); }
+        .btn-action.del { background: rgba(255,107,107,0.1); color: var(--danger); }
+        .btn-action.del:hover { background: rgba(255,107,107,0.2); }
+        .btn-action.vis { background: rgba(124,111,255,0.1); color: var(--violet); }
+        .btn-action.vis:hover { background: rgba(124,111,255,0.2); }
+
+        /* ── PROJECT TABLE ── */
+        .project-thumb { width: 50px; height: 36px; border-radius: 6px; background: linear-gradient(135deg, var(--violet), var(--teal)); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; flex-shrink: 0; }
+        .project-title-cell { font-weight: 500; color: var(--text); }
+        .project-tech-small { color: var(--muted); font-size: 0.76rem; margin-top: 2px; }
+        .vis-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .vis-dot.on { background: var(--success); }
+        .vis-dot.off { background: var(--muted); }
+
+        /* ── ADD PROJECT FORM ── */
+        .add-form-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; margin-bottom: 2rem; }
+        .add-form-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem; color: var(--text); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group label { font-size: 0.78rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+        .form-input { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.65rem 0.9rem; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.875rem; outline: none; transition: border-color 0.2s; }
+        .form-input:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(124,111,255,0.12); }
+        .form-input::placeholder { color: var(--muted); }
+        textarea.form-input { resize: vertical; min-height: 80px; }
+        .form-check-custom { display: flex; align-items: center; gap: 0.5rem; }
+        .form-check-custom input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--violet); cursor: pointer; }
+        .form-check-custom label { color: var(--muted); font-size: 0.875rem; cursor: pointer; }
+        .btn-add { background: linear-gradient(135deg, var(--violet), var(--teal)); border: none; border-radius: 9px; color: white; font-family: 'Space Grotesk', sans-serif; font-weight: 600; padding: 0.65rem 1.5rem; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .btn-add:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,111,255,0.35); }
+
+        /* ── SUCCESS TOAST ── */
+        .toast-success { position: fixed; top: 1.5rem; right: 1.5rem; background: rgba(0,212,170,0.15); border: 1px solid rgba(0,212,170,0.3); color: var(--success); border-radius: 10px; padding: 0.75rem 1.25rem; font-size: 0.875rem; z-index: 9999; display: flex; align-items: center; gap: 0.5rem; animation: slideIn 0.3s ease; }
+        @@keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+        /* ── MESSAGE MODAL ── */
+        .msg-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .msg-modal-overlay.open { display: flex; }
+        .msg-modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 520px; width: 90%; }
+        .msg-modal h5 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .msg-meta { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.25rem; }
+        .msg-body { background: var(--surface); border-radius: 10px; padding: 1rem; color: var(--text); font-size: 0.9rem; line-height: 1.7; white-space: pre-wrap; }
+        .btn-close-modal { background: rgba(255,255,255,0.06); border: none; color: var(--muted); border-radius: 8px; padding: 0.5rem 1rem; cursor: pointer; margin-top: 1.25rem; font-size: 0.875rem; }
+        .btn-close-modal:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+        /* ── EMPTY STATE ── */
+        .empty-state { padding: 3rem; text-align: center; color: var(--muted); }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.4; display: block; }
+
+        /* ── RESPONSIVE ── */
+        @@media (max-width: 768px) {
+            .admin-main { padding: 1rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .admin-table th:nth-child(3), .admin-table td:nth-child(3),
+            .admin-table th:nth-child(5), .admin-table td:nth-child(5) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="admin-topbar">
+    <div class="admin-brand"><span class="mh">MH</span><span class="dot">.</span> Admin</div>
+    <div class="topbar-right">
+        @if (ViewBag.UnreadCount > 0)
+        {
+            <span class="unread-badge"><i class="fas fa-envelope me-1"></i>@ViewBag.UnreadCount unread</span>
+        }
+        <a href="/" class="btn-logout" style="color:var(--muted);border-color:var(--border);">
+            <i class="fas fa-external-link-alt me-1"></i>View Site
+        </a>
+        <a href="/Admin/Logout" class="btn-logout">
+            <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </a>
+    </div>
+</div>
+
+<!-- TABS -->
+<div class="admin-tabs">
+    <button class="tab-btn active" onclick="switchTab('messages', this)">
+        <i class="fas fa-envelope"></i>Messages
+        @if (ViewBag.UnreadCount > 0) { <span class="unread-badge ms-1">@ViewBag.UnreadCount</span> }
+    </button>
+    <button class="tab-btn" onclick="switchTab('projects', this)">
+        <i class="fas fa-code"></i>Projects
+    </button>
+</div>
+
+<!-- MAIN -->
+<div class="admin-main">
+
+    @{
+        var messages = ViewBag.Messages as List<PortfolioMH.Models.ContactMessage> ?? new List<PortfolioMH.Models.ContactMessage>();
+        var projects = ViewBag.Projects as List<PortfolioMH.Models.Project> ?? new List<PortfolioMH.Models.Project>();
+        int unread = messages.Count(m => !m.IsRead);
+        int visible = projects.Count(p => p.IsVisible);
+    }
+
+    <!-- ── MESSAGES TAB ── -->
+    <div id="tab-messages" class="tab-panel active">
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon violet"><i class="fas fa-envelope"></i></div>
+                <div><div class="stat-num">@messages.Count</div><div class="stat-label">Total Messages</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="fas fa-bell"></i></div>
+                <div><div class="stat-num">@unread</div><div class="stat-label">Unread</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                <div><div class="stat-num">@(messages.Count - unread)</div><div class="stat-label">Read</div></div>
+            </div>
+        </div>
+
+        <div class="section-head">
+            <h3><i class="fas fa-inbox me-2" style="color:var(--violet)"></i>Inbox</h3>
+        </div>
+
+        <div class="table-wrap">
+            @if (messages.Any())
+            {
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Sender</th>
+                            <th>Subject</th>
+                            <th>Preview</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in messages)
+                        {
+                            <tr class="@(msg.IsRead ? "" : "unread")" id="msg-row-@msg.Id">
+                                <td>
+                                    <div class="sender-name">@msg.Name</div>
+                                    <div style="font-size:0.76rem;color:var(--muted)">@msg.Email</div>
+                                </td>
+                                <td style="font-weight:500">@msg.Subject</td>
+                                <td><div class="msg-preview">@msg.Message</div></td>
+                                <td class="msg-date">@msg.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    @if (msg.IsRead)
+                                    {
+                                        <span class="badge-read">Read</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-unread">New</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div style="display:flex;gap:6px;align-items:center;">
+                                        <button class="btn-action vis" title="View message"
+                                                onclick="viewMessage(@msg.Id, '@Html.Raw(msg.Name.Replace("'", "\\'"))', '@Html.Raw(msg.Email.Replace("'", "\\'"))', '@Html.Raw(msg.Subject.Replace("'", "\\'"))', '@Html.Raw(msg.Message.Replace("'", "\\'").Replace("\n", "\\n"))')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        @if (!msg.IsRead)
+                                        {
+                                            <button class="btn-action read" title="Mark as read"
+                                                    onclick="markRead(@msg.Id, this)">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        }
+                                        <button class="btn-action del" title="Delete"
+                                                onclick="deleteMessage(@msg.Id)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No messages yet. When someone contacts you, they'll appear here.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- ── PROJECTS TAB ── -->
+    <div id="tab-projects" class="tab-panel">
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon violet"><i class="fas fa-code"></i></div>
+                <div><div class="stat-num">@projects.Count</div><div class="stat-label">Total Projects</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon teal"><i class="fas fa-eye"></i></div>
+                <div><div class="stat-num">@visible</div><div class="stat-label">Visible</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-star"></i></div>
+                <div><div class="stat-num">@projects.Count(p => p.IsFeatured)</div><div class="stat-label">Featured</div></div>
+            </div>
+        </div>
+
+        <!-- Add Project Form -->
+        <div class="add-form-card">
+            <h4><i class="fas fa-plus-circle me-2" style="color:var(--violet)"></i>Add New Project</h4>
+            <form method="post" asp-action="AddProject" asp-controller="Admin">
+                @Html.AntiForgeryToken()
+                <div class="form-row mb-3">
+                    <div class="form-group">
+                        <label>Project Title *</label>
+                        <input type="text" name="title" class="form-input" placeholder="e.g. ShopEase – E-Commerce Platform" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Technologies (comma-separated) *</label>
+                        <input type="text" name="technologies" class="form-input" placeholder="ASP.NET MVC, SQL Server, Bootstrap 5" />
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Description *</label>
+                    <textarea name="description" class="form-input" placeholder="Describe what the project does, key features, challenges solved..." required></textarea>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group">
+                        <label>Live URL</label>
+                        <input type="url" name="liveUrl" class="form-input" placeholder="https://..." />
+                    </div>
+                    <div class="form-group">
+                        <label>GitHub URL</label>
+                        <input type="url" name="gitHubUrl" class="form-input" placeholder="https://github.com/..." />
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Image URL (optional)</label>
+                    <input type="url" name="imageUrl" class="form-input" placeholder="https://... (screenshot or thumbnail)" />
+                </div>
+                <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+                    <div class="form-check-custom">
+                        <input type="checkbox" name="isVisible" id="chkVisible" value="true" checked />
+                        <label for="chkVisible">Visible on portfolio</label>
+                    </div>
+                    <div class="form-check-custom">
+                        <input type="checkbox" name="isFeatured" id="chkFeatured" value="true" />
+                        <label for="chkFeatured">Mark as Featured</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-plus me-2"></i>Add Project
+                </button>
+            </form>
+        </div>
+
+        <!-- Projects Table -->
+        <div class="section-head">
+            <h3><i class="fas fa-list me-2" style="color:var(--violet)"></i>All Projects</h3>
+        </div>
+        <div class="table-wrap">
+            @if (projects.Any())
+            {
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th width="50"></th>
+                            <th>Project</th>
+                            <th>Technologies</th>
+                            <th>Status</th>
+                            <th>Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in projects)
+                        {
+                            <tr id="proj-row-@p.Id">
+                                <td><div class="project-thumb"><i class="fas fa-code"></i></div></td>
+                                <td>
+                                    <div class="project-title-cell">@p.Title</div>
+                                    <div class="project-tech-small">
+                                        @if (p.IsFeatured) { <span style="color:var(--violet);margin-right:6px;">★ Featured</span> }
+                                    </div>
+                                </td>
+                                <td><div class="project-tech-small" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@p.Technologies</div></td>
+                                <td>
+                                    <span id="vis-status-@p.Id">
+                                        <span class="vis-dot @(p.IsVisible ? "on" : "off")"></span>
+                                        @(p.IsVisible ? "Visible" : "Hidden")
+                                    </span>
+                                </td>
+                                <td class="msg-date">@p.CreatedAt.ToString("MMM yyyy")</td>
+                                <td>
+                                    <div style="display:flex;gap:6px;">
+                                        @if (!string.IsNullOrEmpty(p.LiveUrl))
+                                        {
+                                            <a href="@p.LiveUrl" target="_blank" class="btn-action vis" title="View Live">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        }
+                                        <button class="btn-action read" title="Toggle Visibility"
+                                                onclick="toggleVisibility(@p.Id)">
+                                            <i class="fas fa-eye@(p.IsVisible ? "" : "-slash")"></i>
+                                        </button>
+                                        <button class="btn-action del" title="Delete Project"
+                                                onclick="deleteProject(@p.Id, '@Html.Raw(p.Title.Replace("'","\\'"))')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fas fa-folder-open"></i>
+                    <p>No projects yet. Add your first project above.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Message Modal -->
+<div class="msg-modal-overlay" id="msgModal">
+    <div class="msg-modal">
+        <h5 id="modal-subject"></h5>
+        <div class="msg-meta" id="modal-meta"></div>
+        <div class="msg-body" id="modal-body"></div>
+        <button class="btn-close-modal" onclick="closeModal()">
+            <i class="fas fa-times me-1"></i>Close
+        </button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast-success" style="display:none;"></div>
+
+@if (TempData["Success"] != null)
+{
+    <script>showToast('@TempData["Success"]');</script>
+}
+
+<script>
+    function switchTab(tab, btn) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + msg;
+        t.style.display = 'flex';
+        setTimeout(() => t.style.display = 'none', 3500);
+    }
+
+    function getToken() {
+        const el = document.querySelector('input[name="__RequestVerificationToken"]');
+        return el ? el.value : '';
+    }
+
+    async function markRead(id, btn) {
+        const res = await fetch('/Admin/MarkRead', {
+            method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id + '&__RequestVerificationToken=' + encodeURIComponent(getToken())
+        });
+        const data = await res.json();
+        if (data.success) {
+            const row = document.getElementById('msg-row-' + id);
+            row.classList.remove('unread');
+            row.querySelector('.badge-unread').outerHTML = '<span class="badge-read">Read</span>';
+            btn.remove();
+            showToast('Message marked as read.');
+        }
+    }
+
+    async function deleteMessage(id) {
+        if (!confirm('Delete this message? This cannot be undone.')) return;
+        const res = await fetch('/Admin/DeleteMessage', {
+            method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id + '&__RequestVerificationToken=' + encodeURIComponent(getToken())
+        });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('msg-row-' + id)?.remove();
+            showToast('Message deleted.');
+        }
+    }
+
+    async function toggleVisibility(id) {
+        const res = await fetch('/Admin/ToggleVisibility', {
+            method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id + '&__RequestVerificationToken=' + encodeURIComponent(getToken())
+        });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('vis-status-' + id).innerHTML =
+                '<span class="vis-dot ' + (data.isVisible ? 'on' : 'off') + '"></span>' +
+                (data.isVisible ? 'Visible' : 'Hidden');
+            showToast('Project visibility updated.');
+        }
+    }
+
+    async function deleteProject(id, title) {
+        if (!confirm('Delete "' + title + '"? This cannot be undone.')) return;
+        const res = await fetch('/Admin/DeleteProject', {
+            method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id + '&__RequestVerificationToken=' + encodeURIComponent(getToken())
+        });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('proj-row-' + id)?.remove();
+            showToast('Project deleted.');
+        }
+    }
+
+    function viewMessage(id, name, email, subject, body) {
+        document.getElementById('modal-subject').textContent = subject;
+        document.getElementById('modal-meta').textContent = 'From: ' + name + ' <' + email + '>';
+        document.getElementById('modal-body').textContent = body;
+        document.getElementById('msgModal').classList.add('open');
+        // Auto mark as read
+        const row = document.getElementById('msg-row-' + id);
+        if (row && row.classList.contains('unread')) markRead(id, null);
+    }
+
+    function closeModal() {
+        document.getElementById('msgModal').classList.remove('open');
+    }
+
+    document.getElementById('msgModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+</script>
+</body>
+</html>
